@@ -1,0 +1,12 @@
+{
+  "name": "STUDY REMINDER",
+  "short_name": "Study Reminder",
+  "description": "Quản lý bài tập và nhắc nhở học tập",
+  "lang": "vi-VN",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6f8fc",
+  "theme_color": "#2563eb",
+  "icons": []
+}

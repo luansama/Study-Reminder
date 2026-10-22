@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2563eb">
+  <meta name="description" content="STUDY REMINDER - Quản lý bài tập và nhắc nhở học tập.">
+  <title>STUDY REMINDER</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" data-view="home" aria-label="STUDY REMINDER - Trang chủ">
+        <span class="brand-mark">✓</span><span>STUDY <b>REMINDER</b></span>
+      </a>
+      <div class="side-label">KHÔNG GIAN HỌC TẬP</div>
+      <nav class="main-nav" aria-label="Điều hướng chính">
+        <button class="nav-item active" data-view="home"><span>⌂</span> Trang chủ</button>
+        <button class="nav-item" data-view="tasks"><span>☷</span> Danh sách bài</button>
+        <button class="nav-item" data-view="calendar"><span>▦</span> Lịch học</button>
+        <button class="nav-item" data-view="stats"><span>▥</span> Thống kê</button>
+        <button class="nav-item" data-view="settings"><span>⚙</span> Cài đặt</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="mini-tip"><span class="tip-icon">✦</span><b>Học từng chút một</b><p>Hoàn thành một việc nhỏ hôm nay sẽ giúp ngày mai nhẹ nhàng hơn.</p></div>
+        <div class="storage-status"><span class="status-dot"></span><span>Dữ liệu lưu trên thiết bị</span></div>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <button class="mobile-brand" data-view="home"><span class="brand-mark">✓</span> STUDY REMINDER</button>
+        <div class="topbar-spacer"></div>
+        <div class="today-chip"><span>◷</span><span id="top-date">Đang tải ngày...</span></div>
+        <button class="icon-button" id="header-notification" title="Cài đặt thông báo" aria-label="Cài đặt thông báo">♧</button>
+        <button class="avatar" id="greeting-avatar" aria-label="Chào mừng">L</button>
+      </header>
+
+      <section class="view active" id="view-home">
+        <div class="welcome-row">
+          <div><div class="eyebrow">GÓC HỌC TẬP CỦA BẠN</div><h1 id="greeting">Chào bạn! 👋</h1><p class="muted">Cùng sắp xếp công việc để việc học dễ dàng hơn nhé.</p></div>
+          <button class="primary-button" id="add-task-home"><span>＋</span> Thêm bài mới</button>
+        </div>
+        <div class="stats-grid" id="home-stats">
+          <article class="stat-card"><span class="stat-icon blue">☷</span><div><span class="stat-label">Chưa hoàn thành</span><strong id="stat-pending">0</strong><small>Việc đang chờ bạn</small></div></article>
+          <article class="stat-card"><span class="stat-icon orange">◷</span><div><span class="stat-label">Cần làm hôm nay</span><strong id="stat-today">0</strong><small>Bài đến hạn hôm nay</small></div></article>
+          <article class="stat-card"><span class="stat-icon green">✓</span><div><span class="stat-label">Đã xong hôm nay</span><strong id="stat-done">0</strong><small>Tiến bộ mỗi ngày</small></div></article>
+          <article class="stat-card"><span class="stat-icon red">!</span><div><span class="stat-label">Đang quá hạn</span><strong id="stat-overdue">0</strong><small>Ưu tiên xử lý sớm</small></div></article>
+        </div>
+        <div class="content-grid">
+          <section class="panel task-panel">
+            <div class="panel-heading"><div><h2>Việc cần ưu tiên</h2><p class="muted">Được sắp xếp theo mức độ khẩn cấp</p></div><button class="text-button" data-view="tasks">Xem tất cả →</button></div>
+            <div id="upcoming-list" class="task-list"></div>
+          </section>
+          <aside class="panel reminder-panel">
+            <div class="panel-heading"><div><h2>Nhắc nhở</h2><p class="muted">Trạng thái hệ thống</p></div><span class="bell-badge">♧</span></div>
+            <div class="reminder-status"><span class="status-dot" id="reminder-dot"></span><div><b id="reminder-state">Đang kiểm tra</b><p id="reminder-description">Nhắc nhở khi trang đang mở.</p></div></div>
+            <div class="reminder-divider"></div>
+            <div class="next-reminder-label">BÀI GẦN ĐẾN HẠN NHẤT</div>
+            <div id="next-reminder" class="next-reminder"><span class="empty-emoji">☀</span><p>Chưa có bài cần nhắc.</p></div>
+            <button class="secondary-button full-width" id="enable-notifications">Bật thông báo trình duyệt</button>
+            <p class="fine-print">Thông báo nền phụ thuộc quyền trình duyệt và cấu hình thiết bị.</p>
+          </aside>
+        </div>
+        <section class="panel quick-panel"><div class="panel-heading"><div><h2>Truy cập nhanh</h2><p class="muted">Chọn cách xem công việc của bạn</p></div></div>
+          <div class="quick-links">
+            <button class="quick-link" data-quick="today"><span class="quick-icon blue">☀</span><span><b>Hôm nay</b><small>Bài đến hạn hôm nay</small></span><span class="quick-arrow">→</span></button>
+            <button class="quick-link" data-quick="week"><span class="quick-icon purple">▦</span><span><b>Trong tuần</b><small>Lên kế hoạch sắp tới</small></span><span class="quick-arrow">→</span></button>
+            <button class="quick-link" data-quick="overdue"><span class="quick-icon red">!</span><span><b>Quá hạn</b><small>Xử lý bài còn tồn</small></span><span class="quick-arrow">→</span></button>
+          </div>
+        </section>
+      </section>
+
+      <section class="view" id="view-tasks">
+        <div class="page-heading"><div><div class="eyebrow">QUẢN LÝ CÔNG VIỆC</div><h1>Danh sách bài</h1><p class="muted">Tất cả bài học, bài tập và hạn nộp của bạn.</p></div><button class="primary-button" id="add-task-list">＋ Thêm bài</button></div>
+        <div class="filter-tabs" id="task-groups">
+          <button class="filter-tab active" data-filter="all">Tất cả</button><button class="filter-tab" data-filter="today">Hôm nay</button><button class="filter-tab" data-filter="tomorrow">Ngày mai</button><button class="filter-tab" data-filter="week">Trong tuần</button><button class="filter-tab" data-filter="upcoming">Sắp đến hạn</button><button class="filter-tab" data-filter="overdue">Quá hạn</button><button class="filter-tab" data-filter="completed">Đã hoàn thành</button>
+        </div>
+        <div class="filter-bar">
+          <label class="search-box"><span>⌕</span><input id="search-tasks" type="search" placeholder="Tìm nội dung bài..."></label>
+          <select id="filter-subject" aria-label="Lọc theo môn"><option value="">Tất cả môn học</option></select>
+          <select id="filter-priority" aria-label="Lọc theo ưu tiên"><option value="">Mọi mức ưu tiên</option><option value="4">Rất cao</option><option value="3">Cao</option><option value="2">Trung bình</option><option value="1">Thấp</option></select>
+          <select id="filter-status" aria-label="Lọc trạng thái"><option value="">Mọi trạng thái</option><option value="pending">Chưa hoàn thành</option><option value="completed">Đã hoàn thành</option><option value="overdue">Quá hạn</option></select>
+        </div>
+        <div class="list-summary"><span id="list-count">0 bài</span><select id="sort-tasks" aria-label="Sắp xếp bài"><option value="smart">Sắp xếp thông minh</option><option value="due">Hạn gần nhất</option><option value="priority">Ưu tiên cao nhất</option><option value="created">Mới tạo trước</option></select></div>
+        <div id="all-tasks-list" class="task-list panel"></div>
+      </section>
+
+      <section class="view" id="view-calendar">
+        <div class="page-heading"><div><div class="eyebrow">KẾ HOẠCH HỌC TẬP</div><h1>Lịch học</h1><p class="muted">Theo dõi hạn nộp theo ngày hoặc cả tuần.</p></div><button class="primary-button" id="calendar-add">＋ Thêm bài</button></div>
+        <div class="panel calendar-panel">
+          <div class="calendar-toolbar"><div class="segmented"><button class="active" data-calendar-mode="week">Tuần</button><button data-calendar-mode="day">Ngày</button></div><div class="calendar-controls"><button class="icon-button" id="calendar-prev" aria-label="Kỳ trước">‹</button><button class="secondary-button" id="calendar-today">Hôm nay</button><button class="icon-button" id="calendar-next" aria-label="Kỳ sau">›</button></div></div>
+          <h2 id="calendar-title" class="calendar-title"></h2><div id="calendar-grid"></div>
+        </div>
+      </section>
+
+      <section class="view" id="view-stats">
+        <div class="page-heading"><div><div class="eyebrow">NHÌN LẠI TIẾN ĐỘ</div><h1>Thống kê học tập</h1><p class="muted">Số liệu được tính trực tiếp từ danh sách bài của bạn.</p></div></div>
+        <div class="stats-grid stats-grid-three">
+          <article class="stat-card"><span class="stat-icon blue">☷</span><div><span class="stat-label">Tổng số bài</span><strong id="analytics-total">0</strong><small>Từ khi bắt đầu sử dụng</small></div></article>
+          <article class="stat-card"><span class="stat-icon green">✓</span><div><span class="stat-label">Tỷ lệ hoàn thành</span><strong id="analytics-rate">0%</strong><small>Trên tổng số bài</small></div></article>
+          <article class="stat-card"><span class="stat-icon red">!</span><div><span class="stat-label">Bài quá hạn</span><strong id="analytics-overdue">0</strong><small>Chưa được hoàn thành</small></div></article>
+        </div>
+        <div class="content-grid analytics-grid">
+          <section class="panel"><div class="panel-heading"><div><h2>Tiến độ 7 ngày</h2><p class="muted">Số bài hoàn thành mỗi ngày</p></div></div><div id="weekly-chart" class="bar-chart"></div></section>
+          <section class="panel"><div class="panel-heading"><div><h2>Theo môn học</h2><p class="muted">Số bài đã hoàn thành</p></div></div><div id="subject-chart" class="subject-chart"></div></section>
+        </div>
+        <section class="panel"><div class="panel-heading"><div><h2>Tổng quan trạng thái</h2><p class="muted">Phân loại công việc hiện tại</p></div></div><div id="status-breakdown" class="status-breakdown"></div></section>
+      </section>
+
+      <section class="view" id="view-settings">
+        <div class="page-heading"><div><div class="eyebrow">CÁ NHÂN HÓA</div><h1>Cài đặt</h1><p class="muted">Điều chỉnh cách STUDY REMINDER hoạt động.</p></div></div>
+        <div class="settings-layout">
+          <section class="panel settings-section"><div class="panel-heading"><div><h2>Nhắc nhở</h2><p class="muted">Cài đặt mặc định cho bài mới</p></div></div>
+            <label class="setting-row"><span><b>Thông báo nhắc nhở</b><small>Bật kiểm tra nhắc nhở khi website đang mở</small></span><input id="setting-notifications" type="checkbox" class="switch"></label>
+            <label class="setting-row"><span><b>Thông báo trình duyệt</b><small>Hiện thông báo ngoài trang khi được hỗ trợ</small></span><button class="secondary-button" id="settings-permission">Cấp quyền</button></label>
+            <label class="setting-row"><span><b>Giờ nhắc mặc định</b><small>Áp dụng cho bài được tạo mới</small></span><input id="default-reminder-time" type="time" value="19:00"></label>
+            <label class="setting-row"><span><b>Nhắc trước hạn</b><small>Thời gian trước hạn nộp</small></span><select id="default-advance"><option value="0">Đúng giờ hạn</option><option value="5">5 phút</option><option value="15" selected>15 phút</option><option value="30">30 phút</option><option value="60">1 giờ</option><option value="1440">1 ngày</option></select></label>
+            <label class="setting-row"><span><b>Âm thanh thông báo</b><small>Âm báo ngắn, có thể tắt bất cứ lúc nào</small></span><input id="setting-sound" type="checkbox" class="switch"></label>
+            <label class="setting-row"><span><b>Khoảng nhắc lại</b><small>Thời gian hoãn khi bấm “Nhắc lại sau”</small></span><select id="default-snooze"><option value="5">5 phút</option><option value="15" selected>15 phút</option><option value="30">30 phút</option><option value="60">60 phút</option></select></label>
+            <div class="settings-actions"><button class="primary-button" id="save-settings">Lưu cài đặt</button></div>
+          </section>
+          <section class="panel settings-section"><div class="panel-heading"><div><h2>Quản lý môn học</h2><p class="muted">Thêm hoặc xóa môn học tự tạo</p></div></div>
+            <form id="subject-form" class="inline-form"><input id="new-subject" placeholder="Tên môn học mới" maxlength="40" required><button class="primary-button" type="submit">Thêm môn</button></form><div id="subjects-list" class="subjects-list"></div>
+          </section>
+          <section class="panel settings-section"><div class="panel-heading"><div><h2>Sao lưu dữ liệu</h2><p class="muted">Xuất dữ liệu ra tệp hoặc khôi phục từ bản sao lưu.</p></div></div>
+            <div class="backup-actions"><button class="secondary-button" id="export-data">↓ Xuất bản sao lưu (.json)</button><label class="secondary-button file-button">↑ Khôi phục từ tệp<input type="file" id="import-data" accept="application/json,.json" hidden></label></div>
+            <div class="danger-zone"><div><b>Xóa toàn bộ dữ liệu</b><p class="muted">Xóa bài tập và cài đặt đã lưu trên thiết bị này.</p></div><button class="danger-button" id="clear-data">Xóa dữ liệu</button></div>
+          </section>
+          <section class="panel settings-section"><div class="panel-heading"><div><h2>Giới hạn thông báo</h2><p class="muted">Thông tin minh bạch về trình duyệt</p></div></div>
+            <div class="info-note">Bản chạy cục bộ có thể nhắc khi trang đang mở. Khi trang đã đóng hoàn toàn, JavaScript không thể đảm bảo chạy đúng giờ. Muốn gửi thông báo nền đáng tin cậy cần HTTPS, Service Worker và máy chủ Push hoặc dịch vụ tương đương. Chỉ cài Service Worker không tự tạo lịch đánh thức trình duyệt.</div>
+            <div class="info-note">Dữ liệu được lưu trên trình duyệt và thiết bị hiện tại. Dùng chức năng xuất bản sao lưu để chuyển dữ liệu sang thiết bị khác.</div>
+          </section>
+        </div>
+      </section>
+
+      <footer class="app-footer"><span>STUDY REMINDER</span><span>Học tập có kế hoạch, tiến bộ mỗi ngày.</span></footer>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="task-modal" hidden>
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-heading"><div><div class="eyebrow">QUẢN LÝ BÀI TẬP</div><h2 id="modal-title">Thêm bài mới</h2></div><button class="icon-button" id="close-modal" aria-label="Đóng">×</button></div>
+      <form id="task-form">
+        <input id="task-id" type="hidden">
+        <div class="form-grid">
+          <label class="form-field"><span>Môn học <i>*</i></span><div class="subject-input-row"><select id="task-subject" required></select><button type="button" id="quick-add-subject" class="small-add" title="Thêm môn học">＋</button></div></label>
+          <label class="form-field"><span>Mức độ ưu tiên <i>*</i></span><select id="task-priority" required><option value="1">◉ Thấp</option><option value="2" selected>◉ Trung bình</option><option value="3">◉ Cao</option><option value="4">◉ Rất cao</option></select></label>
+          <label class="form-field span-two"><span>Nội dung công việc <i>*</i></span><textarea id="task-title" rows="2" maxlength="240" placeholder="Ví dụ: Làm bài tập trang 45..." required></textarea></label>
+          <label class="form-field"><span>Hạn nộp <i>*</i></span><input id="task-due" type="date" required></label>
+          <label class="form-field"><span>Giờ đến hạn</span><input id="task-due-time" type="time" value="23:59"></label>
+          <div class="form-field span-two"><span>Hoặc nhập hạn bằng ngôn ngữ tự nhiên</span><div class="natural-row"><input id="natural-date" placeholder="Ví dụ: ngày mai, thứ Hai, thứ Sáu tuần sau"><button type="button" id="parse-date" class="secondary-button">Phân tích</button></div><p class="field-hint" id="date-parse-hint">Ngày được phân tích sẽ hiển thị ở đây để bạn xác nhận.</p></div>
+          <label class="form-field"><span>Giờ nhắc</span><input id="task-reminder-time" type="time" value="19:00"></label>
+          <label class="form-field"><span>Nhắc trước hạn</span><select id="task-advance"><option value="0">Đúng giờ hạn</option><option value="5">5 phút</option><option value="15" selected>15 phút</option><option value="30">30 phút</option><option value="60">1 giờ</option><option value="1440">1 ngày</option></select></label>
+          <label class="form-field"><span>Bắt đầu thực hiện (không bắt buộc)</span><input id="task-start" type="datetime-local"></label>
+          <label class="form-field"><span>Thời gian dự kiến</span><select id="task-duration"><option value="">Không đặt</option><option value="15">15 phút</option><option value="30">30 phút</option><option value="45">45 phút</option><option value="60">1 giờ</option><option value="90">1 giờ 30 phút</option><option value="120">2 giờ</option></select></label>
+          <label class="form-field span-two"><span>Ghi chú</span><textarea id="task-notes" rows="2" maxlength="1000" placeholder="Ghi chú thêm nếu cần..."></textarea></label>
+          <label class="setting-row span-two modal-reminder-toggle"><span><b>Bật nhắc nhở cho bài này</b><small>Có thể thay đổi bất cứ lúc nào.</small></span><input id="task-reminder-enabled" type="checkbox" class="switch" checked></label>
+        </div>
+        <div class="modal-actions"><button type="button" class="secondary-button" id="cancel-modal">Hủy</button><button type="submit" class="primary-button">Lưu bài tập</button></div>
+      </form>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="detail-modal" hidden><section class="modal detail-modal" role="dialog" aria-modal="true" aria-labelledby="detail-title"><div class="modal-heading"><div><div class="eyebrow">CHI TIẾT CÔNG VIỆC</div><h2 id="detail-title">Bài tập</h2></div><button class="icon-button" id="close-detail" aria-label="Đóng">×</button></div><div id="detail-content"></div><div class="modal-actions" id="detail-actions"></div></section></div>
+  <div class="toast-region" id="toast-region" aria-live="polite" aria-atomic="true"></div>
+  <div class="reminder-popover" id="reminder-popover" hidden></div>
+  <nav class="mobile-nav" aria-label="Điều hướng điện thoại"><button class="active" data-view="home"><span>⌂</span>Trang chủ</button><button data-view="tasks"><span>☷</span>Bài tập</button><button data-view="calendar"><span>▦</span>Lịch</button><button data-view="stats"><span>▥</span>Thống kê</button><button data-view="settings"><span>⚙</span>Cài đặt</button></nav>
+  <script src="storage.js"></script>
+  <script src="notifications.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
